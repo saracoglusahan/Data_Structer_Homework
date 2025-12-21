@@ -38,7 +38,7 @@ int main()
 				head = add_Element(head);
 				break;
 			case 3:
-				
+				head = delete_Element(head);
 				break;
 			case 4:
 				print_LinkedList(head);
@@ -138,10 +138,49 @@ struct node *add_Element(struct node *head){
 
 struct node *delete_Element(struct node *head)
 {
-	
-	
-	
-	
+	if (head == NULL)
+	{
+		printf("Firstly you must be create the Linked List!\n");
+		return head;
+	}
+
+	int data;
+	printf("Which value do you want to delete: ");
+	scanf("%d",&data);
+
+	struct node *iter = head;
+
+	if (head->data == data)
+	{
+		struct node *temp = head;
+		head = head->next;
+		if (head != NULL)
+		{
+			head->prev = NULL;
+		}
+		free(temp);
+		printf("The element deleted from the list!\n");
+		return head;
+	}
+
+	while (iter != NULL)
+	{
+		if (iter->data == data)
+		{
+			iter->prev->next = iter->next;
+			if (iter->next != NULL)
+			{
+				iter->next->prev = iter->prev;
+			}
+			free(iter);
+			printf("The element deleted from the list!\n");
+			return head;
+		}
+		iter = iter->next;
+	}
+
+	printf("The value was not found in the list!\n");
+	return head;
 }
 
 
