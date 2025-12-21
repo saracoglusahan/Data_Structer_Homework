@@ -7,7 +7,7 @@
 char stack[SIZE];
 int top = -1;
 
-/* Stack iþlemleri */
+// Stack islemleri 
 void push(char x)
 {
 	stack[++top] = x;
@@ -23,7 +23,7 @@ char peek()
 	return stack[top];
 }
 
-/* Operatör önceliði */
+// Operator onceligi 
 int priority(char x)
 {
 	if (x == '+' || x == '-')
@@ -33,7 +33,7 @@ int priority(char x)
 	return 0;
 }
 
-/* Infix -> Postfix */
+/* Infix to Postfix */
 void infixToPostfix(char infix[], char postfix[])
 {
 	int i = 0, j = 0;
@@ -43,26 +43,26 @@ void infixToPostfix(char infix[], char postfix[])
 	{
 		ch = infix[i];
 
-		/* Operand ise */
+		// Operandsa 
 		if (isalnum(ch))
 		{
 			postfix[j++] = ch;
 		}
-		/* '(' ise */
+		// parantez açma ise 
 		else if (ch == '(')
 		{
 			push(ch);
 		}
-		/* ')' ise */
+		// parantez kapama ise 
 		else if (ch == ')')
 		{
 			while (top != -1 && peek() != '(')
 			{
 				postfix[j++] = pop();
 			}
-			pop(); // '(' sil
+			pop(); // parantez kapama sil
 		}
-		/* Operatör ise */
+		// Operatorse 
 		else
 		{
 			while (top != -1 && priority(peek()) >= priority(ch))
@@ -74,7 +74,7 @@ void infixToPostfix(char infix[], char postfix[])
 		i++;
 	}
 
-	/* Stack boþalt */
+	/* Stack bosalt */
 	while (top != -1)
 	{
 		postfix[j++] = pop();
