@@ -1,18 +1,3 @@
-/*
- * WEEK 11 – GRAPH CLUSTERING
- *
- * [TR]
- * Graph yapýsýnda cluster (küme), birbirine
- * baðlý düðümlerin oluþturduðu alt gruplardýr.
- * Bu örnekte DFS kullanýlarak graph ayrý
- * cluster’lara ayrýlmýþtýr.
- *
- * [EN]
- * In graph structures, clusters (connected components)
- * are groups of nodes that are connected to each other.
- * DFS is used to separate the graph into clusters.
-*/
-
 #include <stdio.h>
 
 #define MAX_NODE 100
