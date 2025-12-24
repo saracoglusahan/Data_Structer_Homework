@@ -1,155 +1,139 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
 
-#define MAX 100
+// Diskleri tutacak node yapýsý (Senin stilindeki node)
+struct node {
+	int diskSize;
+	struct node *next;
+};
 
-char stack[MAX];
-int top = -1;
+// Kulelerin (Pegs) tepesini tutan pointerlar
+struct node *pegA = NULL;
+struct node *pegB = NULL;
+struct node *pegC = NULL;
 
-void push(char val);
-char pop();
-char peek();
-int get_Priority(char op);
-void convert_Infix_To_Postfix(char infix[]);
+// Fonksiyon prototipleri
+struct node* push_Disk(struct node *head, int size);
+struct node* pop_Disk(struct node **head);
+void print_Pegs();
+void solve_Hanoi(int n, struct node **src, struct node **dest, struct node **aux, char s, char d, char a);
 
 int main()
 {
 	int operation;
-	char taken_Data[MAX];
-
+	int taken_Data; // Disk sayýsý
+	
 	while(1)
 	{
 		printf("************************************\n");
-		printf("1 - Enter Infix Expression\n");
-		printf("2 - Convert to Postfix and Print\n");
+		printf("1 - Setup Hanoi Puzzle (Add Disks)\n");
+		printf("2 - Print Current Pegs (Traversal)\n");
+		printf("3 - Solve Puzzle Automatically\n");
 		printf("0 - Exit\n");
 		printf(": ");
 		scanf("%d", &operation);
-
+		
 		switch(operation)
 		{
 			case 1:
-				printf("Enter your infix expression (e.g. a+b*(c-d)): ");
-				scanf("%s", taken_Data);
-				printf("Your expression was saved!\n");
-				break;
-
-			case 2:
-				if (strlen(taken_Data) == 0) {
-					printf("Firstly you have to enter an infix expression!\n");
+				if (pegA != NULL) {
+					printf("Puzzle already setup!\n");
 					break;
 				}
-				printf("\nConverting process started...\n");
-				printf("Postfix result: ");
-				convert_Infix_To_Postfix(taken_Data);
-				printf("\nConversion is succeed!\n\n");
+				printf("How many disks: ");
+				scanf("%d", &taken_Data);
+				// Diskleri büyükten küçüðe Peg A'ya ekle (Senin add element mantýðýn)
+				for(int i = taken_Data; i >= 1; i--) {
+					pegA = push_Disk(pegA, i);
+				}
+				printf("Disks added to Peg A!\n");
 				break;
-
+				
+			case 2:
+				print_Pegs();
+				break;
+				
+			case 3:
+				if(pegA == NULL) {
+					printf("Firstly you have to setup the puzzle!\n");
+					break;
+				}
+				// Kaç disk olduðunu say
+				struct node *iter = pegA;
+				int count = 0;
+				while(iter != NULL) {
+					count++;
+					iter = iter->next;
+				}
+				solve_Hanoi(count, &pegA, &pegC, &pegB, 'A', 'C', 'B');
+				printf("Puzzle solved successfully!\n");
+				break;
+				
 			case 0:
-				printf("Closing the Shunting Yard system...\n");
+				printf("Closing Hanoi system...\n");
 				return 0;
-
-			default:
-				printf("Invalid operation! Try again.\n");
-				break;
 		}
 	}
-
 	return 0;
 }
 
+// Diski kuleye ekleme (Add Element / Push)
+struct node* push_Disk(struct node *head, int size) {
+	struct node *newNode = (struct node*) malloc(sizeof(struct node));
+	if(newNode == NULL) return head;
+	
+	newNode->diskSize = size;
+	newNode->next = head; // Her zaman baþa ekler (Stack mantýðý)
+	return newNode;
+}
 
-void push(char val)
-{
-	if (top >= MAX - 1) {
-		printf("Stack Overflow!\n");
+// Diskten kuleyi çýkarma (Delete Element / Pop)
+struct node* pop_Disk(struct node **head) {
+	if(*head == NULL) return NULL;
+	
+	struct node *temp = *head;
+	*head = (*head)->next;
+	return temp; // Çýkan node'u döndür ki diðer kuleye ekleyebilelim
+}
+
+// Kulelerin durumunu gezme (Traversal)
+void print_Peg_Status(struct node *head, char pegName) {
+	printf("Peg %c: ", pegName);
+	struct node *iter = head;
+	if(iter == NULL) printf("Empty");
+	while(iter != NULL) {
+		printf("[%d] ", iter->diskSize);
+		iter = iter->next;
+	}
+	printf("\n");
+}
+
+void print_Pegs() {
+	printf("\n--- Current State ---\n");
+	print_Peg_Status(pegA, 'A');
+	print_Peg_Status(pegB, 'B');
+	print_Peg_Status(pegC, 'C');
+	printf("---------------------\n\n");
+}
+
+// Özyinelemeli çözüm (Kule pointerlarý ile)
+void solve_Hanoi(int n, struct node **src, struct node **dest, struct node **aux, char s, char d, char a) {
+	if(n == 1) {
+		struct node *disk = pop_Disk(src);
+		*dest = push_Disk(*dest, disk->diskSize);
+		free(disk);
+		printf("Moved disk 1 from %c to %c\n", s, d);
+		print_Pegs();
 		return;
 	}
-	stack[++top] = val;
-}
-
-
-char pop()
-{
-	if (top == -1) {
-		return -1;
-	}
-	return stack[top--];
-}
-
-
-char peek()
-{
-	if (top == -1) {
-		return -1;
-	}
-	return stack[top];
-}
-
-
-int get_Priority(char op)
-{
-	if (op == '+' || op == '-')
-	{
-		return 1;
-	}
-	if (op == '*' || op == '/')
-	{
-		return 2;
-	}
-	if (op == '^')
-	{
-		return 3;
-	}
-	return 0;
-}
-
-
-void convert_Infix_To_Postfix(char infix[])
-{
-	int i = 0;
-	char ch;
-
-	while (infix[i] != '\0')
-	{
-		ch = infix[i];
-
-		// Eger karakter bir harf veya rakamsa direkt yazdir (Operands)
-		if (isalnum(ch))
-		{
-			printf("%c", ch);
-		}
-		// Parantez acma ise stack'e at
-		else if (ch == '(')
-		{
-			push(ch);
-		}
-		// Parantez kapama ise acma parantezi gorene kadar pop yap
-		else if (ch == ')')
-		{
-			while (top != -1 && peek() != '(')
-			{
-				printf("%c", pop());
-			}
-			pop(); // '(' karakterini stack'ten temizle
-		}
-		// Operator ise oncelik kontrolu yap
-		else
-		{
-			while (top != -1 && get_Priority(peek()) >= get_Priority(ch))
-			{
-				printf("%c", pop());
-			}
-			push(ch);
-		}
-		i++;
-	}
-
-	// Stack'te kalan her seyi bosalt (Traversal gibi)
-	while (top != -1)
-	{
-		printf("%c", pop());
-	}
+	
+	solve_Hanoi(n - 1, src, aux, dest, s, a, d);
+	
+	struct node *disk = pop_Disk(src);
+	*dest = push_Disk(*dest, disk->diskSize);
+	free(disk);
+	printf("Moved disk %d from %c to %c\n", n, s, d);
+	print_Pegs();
+	
+	solve_Hanoi(n - 1, aux, dest, src, a, d, s);
 }
