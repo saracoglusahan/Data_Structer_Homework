@@ -1,44 +1,24 @@
-/******************************************************
- * 2. HAFTA – DERLEYÝCÝLER (COMPILERS)
- *
- * Programlama dillerinde, kod yapýsý
- * Abstract Syntax Tree (AST) ile temsil edilir.
- *
- * Örnek ifade:
- *      a = b + c * 2
- *
- * AST Yapýsý:
- *          =
- *         / \
- *        a   +
- *           / \
- *          b   *
- *              / \
- *             c   2
- ****************************************************/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-/* Düðüm tipleri */
+
 typedef enum {
-	NODE_OP,   // Operatör düðümü (+, *, =)
-	NODE_ID,   // Deðiþken (a, b, c)
-	NODE_NUM   // Sayý (2 gibi)
+	NODE_OP,   
+	NODE_ID,   
+	NODE_NUM   
 } NodeType;
 
-/* AST düðüm yapýsý */
+
 typedef struct ASTNode {
 	NodeType type;
-	char op;                // Operatör
-	char id[32];            // Deðiþken adý
-	int num;                // Sayý deðeri
+	char op;                
+	char id[32];            
+	int num;                
 	struct ASTNode *left;
 	struct ASTNode *right;
 } ASTNode;
 
-/* Operatör düðümü oluþturma */
 ASTNode* newOp(char op, ASTNode* left, ASTNode* right)
 {
 	ASTNode* node = (ASTNode*)malloc(sizeof(ASTNode));
@@ -51,7 +31,6 @@ ASTNode* newOp(char op, ASTNode* left, ASTNode* right)
 	return node;
 }
 
-/* Deðiþken düðümü oluþturma */
 ASTNode* newId(const char* name)
 {
 	ASTNode* node = (ASTNode*)malloc(sizeof(ASTNode));
@@ -65,7 +44,6 @@ ASTNode* newId(const char* name)
 	return node;
 }
 
-/* Sayý düðümü oluþturma */
 ASTNode* newNum(int value)
 {
 	ASTNode* node = (ASTNode*)malloc(sizeof(ASTNode));
@@ -78,7 +56,6 @@ ASTNode* newNum(int value)
 	return node;
 }
 
-/* Düðüm içeriðini yazdýr */
 void printNode(ASTNode* node)
 {
 	if (node == NULL) return;
@@ -91,7 +68,6 @@ void printNode(ASTNode* node)
 		printf("%d", node->num);
 }
 
-/* Preorder Traversal: Root - Left - Right */
 void preorder(ASTNode* root)
 {
 	if (root == NULL) return;
@@ -100,7 +76,6 @@ void preorder(ASTNode* root)
 	preorder(root->right);
 }
 
-/* Inorder Traversal: Left - Root - Right */
 void inorder(ASTNode* root)
 {
 	if (root == NULL) return;
@@ -112,7 +87,6 @@ void inorder(ASTNode* root)
 	if (root->type == NODE_OP) printf(")");
 }
 
-/* Postorder Traversal: Left - Right - Root */
 void postorder(ASTNode* root)
 {
 	if (root == NULL) return;
@@ -121,7 +95,6 @@ void postorder(ASTNode* root)
 	printNode(root); printf(" ");
 }
 
-/* AST aðacýný yan þekilde yazdýr */
 void printTree(ASTNode* root, int level)
 {
 	if (root == NULL) return;
@@ -137,7 +110,6 @@ void printTree(ASTNode* root, int level)
 	printTree(root->left, level + 1);
 }
 
-/* Bellek temizleme */
 void freeTree(ASTNode* root)
 {
 	if (root == NULL) return;
@@ -148,10 +120,7 @@ void freeTree(ASTNode* root)
 
 int main()
 {
-	/*
-		a = b + c * 2
-		Ýfade adým adým AST olarak oluþturuluyor
-	*/
+	//a = b + c * 2
 
 	// c * 2
 	ASTNode* mulNode = newOp('*', newId("c"), newNum(2));

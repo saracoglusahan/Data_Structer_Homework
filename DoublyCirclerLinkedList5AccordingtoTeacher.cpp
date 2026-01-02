@@ -9,7 +9,6 @@ struct n {
 
 typedef struct n node;
 
-// Fonksiyon Prototipleri
 node * ekle_Sirali(node * r);
 node * sil(node * r);
 void bastir(node * r);
@@ -61,14 +60,14 @@ node * ekle_Sirali(node * r) {
 	node * temp = (node *)malloc(sizeof(node));
 	temp -> x = x;
 
-	if(r == NULL) { // Liste bossa
+	if(r == NULL) { 
 		temp -> next = temp;
 		temp -> prev = temp;
 		printf("Ilk eleman eklendi!\n");
 		return temp;
 	}
 
-	if(r -> x > x) { // Basa ekleme (Bas degisiyor)
+	if(r -> x > x) { 
 		node * last = r -> prev;
 		temp -> next = r;
 		temp -> prev = last;
@@ -79,12 +78,12 @@ node * ekle_Sirali(node * r) {
 	}
 
 	node * iter = r;
-	// Dongu sarti: Bir tur donene kadar veya uygun yeri bulana kadar
+
 	while(iter -> next != r && iter -> next -> x < x) {
 		iter = iter -> next;
 	}
 
-	// Araya veya sona ekleme
+
 	temp -> next = iter -> next;
 	temp -> prev = iter;
 	iter -> next -> prev = temp;
@@ -107,8 +106,8 @@ node * sil(node * r) {
 	node * temp;
 	node * iter = r;
 
-	if(r -> x == x) { // Bas elemani silme
-		if(r -> next == r) { // Listede tek eleman varsa
+	if(r -> x == x) { 
+		if(r -> next == r) { 
 			free(r);
 			printf("Son eleman silindi, liste bos.\n");
 			return NULL;

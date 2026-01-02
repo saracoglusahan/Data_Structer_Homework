@@ -116,26 +116,26 @@ void convert_Infix_To_Postfix(char infix[])
 	{
 		ch = infix[i];
 
-		// Eger karakter bir harf veya rakamsa direkt yazdir (Operands)
+	
 		if (isalnum(ch))
 		{
 			printf("%c", ch);
 		}
-		// Parantez acma ise stack'e at
+		
 		else if (ch == '(')
 		{
 			push(ch);
 		}
-		// Parantez kapama ise acma parantezi gorene kadar pop yap
+	
 		else if (ch == ')')
 		{
 			while (top != -1 && peek() != '(')
 			{
 				printf("%c", pop());
 			}
-			pop(); // '(' karakterini stack'ten temizle
+			pop(); 
 		}
-		// Operator ise oncelik kontrolu yap
+		
 		else
 		{
 			while (top != -1 && get_Priority(peek()) >= get_Priority(ch))
@@ -147,7 +147,6 @@ void convert_Infix_To_Postfix(char infix[])
 		i++;
 	}
 
-	// Stack'te kalan her seyi bosalt (Traversal gibi)
 	while (top != -1)
 	{
 		printf("%c", pop());

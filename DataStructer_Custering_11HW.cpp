@@ -2,12 +2,10 @@
 
 #define MAX_NODE 100
 
-/* Adjacency Matrix */
 int adj[MAX_NODE][MAX_NODE];
 int visited[MAX_NODE];
 int nodeCount;
 
-/* Graph oluþturma */
 void createGraph(int n)
 {
 	nodeCount = n;
@@ -22,14 +20,12 @@ void createGraph(int n)
 	}
 }
 
-/* Graph'a kenar ekleme (Undirected) */
 void addEdge(int u, int v)
 {
 	adj[u][v] = 1;
 	adj[v][u] = 1;
 }
 
-/* DFS ile cluster içindeki düðümleri gez */
 void DFS(int node)
 {
 	visited[node] = 1;
@@ -44,7 +40,6 @@ void DFS(int node)
 	}
 }
 
-/* Cluster (Connected Components) bulma */
 void findClusters()
 {
 	int clusterID = 1;
@@ -65,7 +60,6 @@ int main()
 {
 	/*
 		Graph Yapýsý:
-
 		Cluster 1: 0 - 1 - 2
 		Cluster 2: 3 - 4 - 5
 		Cluster 3: 6 - 7 - 8
@@ -75,16 +69,13 @@ int main()
 
 	addEdge(0, 1);
 	addEdge(1, 2);
-
 	addEdge(3, 4);
 	addEdge(4, 5);
 	addEdge(3, 5);
-
 	addEdge(6, 7);
 	addEdge(7, 8);
 
-	printf("Graph Clusters (Connected Components)\n");
-	printf("------------------------------------\n");
+	printf("Graph Clusters (Connected Components) \n");
 
 	findClusters();
 

@@ -10,7 +10,7 @@ struct node* create_List(struct node *head);
 void print_List(struct node *head);
 struct node* add_Element(struct node *head);
 struct node* delete_Element(struct node *head,int data);
-
+void traverse_List(struct node *head);
 int main()
 {
 	struct node *head = NULL;
@@ -22,6 +22,7 @@ int main()
 		printf("2 - Add an element to list\n");
 		printf("3 - Delete an element from list\n");
 		printf("4 - Print the List\n");
+		printf("5 - Traverse & Analyze List\n");
 		printf("0 - Exit\n");
 		printf(": ");
 		scanf("%d",&operation);
@@ -55,7 +56,10 @@ int main()
 				break;
 			case 4:
 				print_List(head);
-			break;
+				break;
+			case 5:
+                traverse_List(head);
+                break;
 			case 0:
 				return 0;
 				
@@ -143,6 +147,23 @@ struct node *delete_Element(struct node *head,int data){
 		return head;
 	}
 	
+}
+
+void traverse_List(struct node *head) {
+    if (head == NULL) {
+        printf("List is empty, nothing to traverse.\n");
+        return;
+    }
+    struct node *iter = head;
+    int counter = 0;
+    printf("\nTraversal\n");
+    
+    while (iter != NULL) {
+        counter++;
+        printf("Node %d -> Address: %p Data: %d Next: %p\n",counter, (void*)iter, iter->data, (void*)iter->next);
+        iter = iter->next;
+    }
+    printf("Total number of nodes: %d\n", counter);
 }
 
 

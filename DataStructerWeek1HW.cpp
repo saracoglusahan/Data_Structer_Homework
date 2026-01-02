@@ -172,7 +172,7 @@ void reverseOfArray(int *array)
     
     if (arrayLenght <= 0) {return;}
     
-	int *c = array + (arrayLenght -1); // last element
+	int *c = array + (arrayLenght -1); 
 	
 	for (int i = arrayLenght-1; i >= 0; i--)
 	{

@@ -1,18 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Diskleri tutacak node yapýsý (Senin stilindeki node)
+
 struct node {
 	int diskSize;
 	struct node *next;
 };
 
-// Kulelerin (Pegs) tepesini tutan pointerlar
 struct node *pegA = NULL;
 struct node *pegB = NULL;
 struct node *pegC = NULL;
 
-// Fonksiyon prototipleri
+
 struct node* push_Disk(struct node *head, int size);
 struct node* pop_Disk(struct node **head);
 void print_Pegs();
@@ -21,7 +20,7 @@ void solve_Hanoi(int n, struct node **src, struct node **dest, struct node **aux
 int main()
 {
 	int operation;
-	int taken_Data; // Disk sayýsý
+	int taken_Data; 
 	
 	while(1)
 	{
@@ -42,7 +41,7 @@ int main()
 				}
 				printf("How many disks: ");
 				scanf("%d", &taken_Data);
-				// Diskleri büyükten küçüðe Peg A'ya ekle (Senin add element mantýðýn)
+				
 				for(int i = taken_Data; i >= 1; i--) {
 					pegA = push_Disk(pegA, i);
 				}
@@ -58,7 +57,7 @@ int main()
 					printf("Firstly you have to setup the puzzle!\n");
 					break;
 				}
-				// Kaç disk olduðunu say
+		
 				struct node *iter = pegA;
 				int count = 0;
 				while(iter != NULL) {
@@ -77,26 +76,23 @@ int main()
 	return 0;
 }
 
-// Diski kuleye ekleme (Add Element / Push)
 struct node* push_Disk(struct node *head, int size) {
 	struct node *newNode = (struct node*) malloc(sizeof(struct node));
 	if(newNode == NULL) return head;
 	
 	newNode->diskSize = size;
-	newNode->next = head; // Her zaman baþa ekler (Stack mantýðý)
+	newNode->next = head;
 	return newNode;
 }
 
-// Diskten kuleyi çýkarma (Delete Element / Pop)
 struct node* pop_Disk(struct node **head) {
 	if(*head == NULL) return NULL;
 	
 	struct node *temp = *head;
 	*head = (*head)->next;
-	return temp; // Çýkan node'u döndür ki diðer kuleye ekleyebilelim
+	return temp; 
 }
 
-// Kulelerin durumunu gezme (Traversal)
 void print_Peg_Status(struct node *head, char pegName) {
 	printf("Peg %c: ", pegName);
 	struct node *iter = head;
@@ -116,7 +112,7 @@ void print_Pegs() {
 	printf("---------------------\n\n");
 }
 
-// Özyinelemeli çözüm (Kule pointerlarý ile)
+
 void solve_Hanoi(int n, struct node **src, struct node **dest, struct node **aux, char s, char d, char a) {
 	if(n == 1) {
 		struct node *disk = pop_Disk(src);

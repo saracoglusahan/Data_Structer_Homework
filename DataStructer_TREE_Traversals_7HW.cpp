@@ -1,27 +1,21 @@
-/****************************************************
- * WEEK 7 – TREE TRAVERSALS
- *
- * Bu örnekte ikili aðaç (Binary Tree) üzerinde
- * farklý dolaþma (traversal) yöntemleri gösterilmiþtir.
- *
- * Traversal Türleri:
- *  - Preorder   : Root - Left - Right
- *  - Inorder    : Left - Root - Right
- *  - Postorder  : Left - Right - Root
- *  - Levelorder : Level by Level (Queue kullanýr)
- ****************************************************/
-
+/*
+Traversal Türleri:
+Preorder   : Root - Left - Right
+Inorder    : Left - Root - Right
+Postorder  : Left - Right - Root
+Levelorder : Level by Level (Queue kullanýr)
+*/
 #include <stdio.h>
 #include <stdlib.h>
 
-/* Aðaç düðüm yapýsý */
+
 typedef struct Node {
 	int data;
 	struct Node* left;
 	struct Node* right;
 } Node;
 
-/* Yeni düðüm oluþturma */
+
 Node* createNode(int value)
 {
 	Node* node = (Node*)malloc(sizeof(Node));
@@ -31,7 +25,7 @@ Node* createNode(int value)
 	return node;
 }
 
-/* Preorder Traversal: Root - Left - Right */
+
 void preorder(Node* root)
 {
 	if (root == NULL) return;
@@ -41,7 +35,7 @@ void preorder(Node* root)
 	preorder(root->right);
 }
 
-/* Inorder Traversal: Left - Root - Right */
+
 void inorder(Node* root)
 {
 	if (root == NULL) return;
@@ -51,7 +45,6 @@ void inorder(Node* root)
 	inorder(root->right);
 }
 
-/* Postorder Traversal: Left - Right - Root */
 void postorder(Node* root)
 {
 	if (root == NULL) return;
@@ -61,14 +54,14 @@ void postorder(Node* root)
 	printf("%d ", root->data);
 }
 
-/* Level Order için Queue yapýsý */
+
 typedef struct {
 	Node* data[100];
 	int front;
 	int rear;
 } Queue;
 
-/* Queue iþlemleri */
+
 void initQueue(Queue* q)
 {
 	q->front = 0;
@@ -90,7 +83,7 @@ Node* dequeue(Queue* q)
 	return q->data[q->front++];
 }
 
-/* Level Order Traversal */
+
 void levelorder(Node* root)
 {
 	if (root == NULL) return;
@@ -116,9 +109,7 @@ int main()
 {
 	/*
 	        1
-	       / \
 	      2   3
-	     / \ / \
 	    4  5 6  7
 	*/
 

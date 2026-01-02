@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int triple_count = 0; // Kac tane sifir olmayan eleman var
+int triple_count = 0; 
 
 int* add_Element(int *sparse);
 int* delete_Element(int *sparse);
@@ -10,7 +10,7 @@ void print_Sparse(int *sparse);
 
 int main()
 {
-	// Triplets: [0]=Row, [1]=Col, [2]=Non-zero count
+
 	int *sparse = (int *) malloc(3 * sizeof(int));
 	
 	if (sparse == NULL) {
@@ -80,7 +80,6 @@ int* add_Element(int *sparse)
 		return sparse;
 	}
 
-	// Onceden var mi kontrol et, varsa guncelle
 	for(int i = 1; i <= triple_count; i++)
 	{
 		if(sparse[i * 3 + 0] == r && sparse[i * 3 + 1] == c)
@@ -91,7 +90,7 @@ int* add_Element(int *sparse)
 		}
 	}
 
-	// Yeni yer ac ve ekle
+
 	triple_count++;
 	int *temp = (int *) realloc(sparse, (triple_count + 1) * 3 * sizeof(int));
 	
@@ -126,7 +125,7 @@ int* delete_Element(int *sparse)
 
 	if(found_idx != -1)
 	{
-		// Kaydirarak silme (Senin array mantigin)
+
 		for(int i = found_idx; i < triple_count; i++)
 		{
 			sparse[i * 3 + 0] = sparse[(i + 1) * 3 + 0];
@@ -174,7 +173,7 @@ void print_Sparse(int *sparse)
 
 	printf("\nSparse Matrix Traversal (R | C | V):\n");
 	printf("------------------------------------\n");
-	// Metadata yazdir
+
 	printf("Matrix Size: %d x %d | Non-zero: %d\n", sparse[0], sparse[1], sparse[2]);
 	
 	for(int i = 1; i <= triple_count; i++)

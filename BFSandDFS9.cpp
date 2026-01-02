@@ -3,8 +3,8 @@
 
 #define MAX 20
 
-int adj[MAX][MAX];    // Adjacency Matrix
-int visited[MAX];     // Dugum kontrol arrayi
+int adj[MAX][MAX];    
+int visited[MAX];     
 int node_count = 0;
 
 void graph_Olustur();
@@ -18,7 +18,7 @@ int main() {
 
 	while(1) {
 		printf("\n************************************\n");
-		printf("      GRAPH SEARCH OPERATIONS\n");
+		printf("      GRAPH SEARCH OPERATIONS         \n");
 		printf("1 - Graph'i Baslat (Node Sayisi Belirle)\n");
 		printf("2 - Kenar Ekle (Add Edge)\n");
 		printf("3 - DFS (Depth First Search) Uygula\n");
@@ -87,7 +87,7 @@ void kenar_Ekle() {
 
 	if(u < node_count && v < node_count) {
 		adj[u][v] = 1;
-		adj[v][u] = 1; // Yonlendirilmemis graph
+		adj[v][u] = 1; 
 		printf("Kenar basariyla eklendi!\n");
 	} else {
 		printf("Hatali dugum numaralari!\n");
@@ -98,7 +98,7 @@ void visited_Reset() {
 	for(int i = 0; i < MAX; i++) visited[i] = 0;
 }
 
-// Derinlemesine Arama (Recursive)
+
 void DFS(int v) {
 	visited[v] = 1;
 	printf("%d ", v);
@@ -110,26 +110,26 @@ void DFS(int v) {
 	}
 }
 
-// Genisligine Arama (Queue Mantigiyla)
+
 void BFS(int start_node) {
 	int queue[MAX];
 	int front = 0, rear = 0;
 
-	// Baslangic dugumunu kuyruga at
+	
 	visited[start_node] = 1;
 	queue[rear++] = start_node;
 
 	
 
 	while(front < rear) {
-		int current = queue[front++]; // Kuyruktan cek (Dequeue)
+		int current = queue[front++]; 
 		printf("%d ", current);
 
 		for(int i = 0; i < node_count; i++) {
-			// Komsu varsa ve gezilmemisse
+		
 			if(adj[current][i] == 1 && !visited[i]) {
 				visited[i] = 1;
-				queue[rear++] = i; // Kuyruga ekle (Enqueue)
+				queue[rear++] = i; 
 			}
 		}
 	}

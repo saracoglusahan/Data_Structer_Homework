@@ -1,13 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Max Heap Icin Gerekli Fonksiyonlar
 int* add_Max(int *heap, int *size);
 int* delete_Max(int *heap, int *size);
 void max_Heapify_Up(int *heap, int index);
 void max_Heapify_Down(int *heap, int n, int i);
 
-// Min Heap Icin Gerekli Fonksiyonlar
+
 int* add_Min(int *heap, int *size);
 int* delete_Min(int *heap, int *size);
 void min_Heapify_Up(int *heap, int index);
@@ -15,7 +14,6 @@ void min_Heapify_Down(int *heap, int n, int i);
 
 void print_Heap(int *heap, int size, char* name);
 
-// Alt Menu Fonksiyonlari
 void max_Heap_Menu();
 void min_Heap_Menu();
 
@@ -50,7 +48,7 @@ int main()
 	return 0;
 }
 
-// --- MAX HEAP MENU VE MANTIGI ---
+
 
 void max_Heap_Menu() {
 	int *heap = NULL;
@@ -101,7 +99,7 @@ int* delete_Max(int *heap, int *size) {
 
 void max_Heapify_Down(int *heap, int n, int i) {
 	int largest = i; int l = 2*i + 1; int r = 2*i + 2;
-	if(l < n && heap[l] > heap[largest]) largest = l;
+	if(l < n  && heap[l] > heap[largest]) largest = l;
 	if(r < n && heap[r] > heap[largest]) largest = r;
 	if(largest != i) {
 		int temp = heap[i]; heap[i] = heap[largest]; heap[largest] = temp;
@@ -109,7 +107,7 @@ void max_Heapify_Down(int *heap, int n, int i) {
 	}
 }
 
-// --- MIN HEAP MENU VE MANTIGI ---
+
 
 void min_Heap_Menu() {
 	int *heap = NULL;
@@ -117,7 +115,7 @@ void min_Heap_Menu() {
 	int op;
 	while(1) {
 		printf("\n--- MIN HEAP SUB-MENU ---\n");
-		printf("1 - Add Element\n2 - Delete Min Root\n3 - Print Traversal\n0 - Back to Main Menu\n: ");
+		printf("1 - Add Element \n2 - Delete Min Root \n3 - Print Traversal \n0 - Back to Main Menu \n: ");
 		scanf("%d", &op);
 		if(op == 1) heap = add_Min(heap, &size);
 		else if(op == 2) heap = delete_Min(heap, &size);
@@ -160,7 +158,7 @@ int* delete_Min(int *heap, int *size) {
 
 void min_Heapify_Down(int *heap, int n, int i) {
 	int smallest = i; int l = 2*i + 1; int r = 2*i + 2;
-	if(l < n && heap[l] < heap[smallest]) smallest = l;
+	if(l < n &&  heap[l] < heap[smallest]) smallest = l;
 	if(r < n && heap[r] < heap[smallest]) smallest = r;
 	if(smallest != i) {
 		int temp = heap[i]; heap[i] = heap[smallest]; heap[smallest] = temp;
